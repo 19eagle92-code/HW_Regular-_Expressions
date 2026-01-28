@@ -58,4 +58,29 @@ for row in contacts_list[1:]:
     row[5] = re.sub(pattern_2, replacement_2, row[5])
 
     # print(row[5])
-pprint(contacts_list)
+# pprint(contacts_list)
+
+# Объединение дублирующих записей
+merged = {}
+
+for contact in contacts_list:
+    key = (contact[0], contact[1])  # Фамилия + Имя
+
+    if key not in merged:
+        merged[key] = contact
+    else:
+        for i in range(len(contact)):
+            if not merged[key][i]:
+                merged[key][i] = contact[i]
+
+result = list(merged.values())
+
+# pprint(result)
+
+
+# TODO 2: сохраните получившиеся данные в другой файл
+# код для записи файла в формате CSV
+with open("phonebook.csv", "w", encoding="utf-8", newline="") as f:
+    datawriter = csv.writer(f, delimiter=",")
+    # Вместо contacts_list подставьте свой список
+    datawriter.writerows(result)
